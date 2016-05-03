@@ -107,7 +107,7 @@
                                         <div class="form-group">
                                             Give START Timestamp
                                             <div class='input-group date' id='start_ts'>
-                                                <input type='text' class="form-control" />
+                                                <input type='text' class="form-control"  id="start_ts_val"/>
                                                 <span class="input-group-addon">
                                                     <span class="glyphicon glyphicon-calendar"></span>
                                                 </span>
@@ -119,7 +119,7 @@
                                         <div class="form-group">
                                             Give END Timestamp
                                             <div class='input-group date' id='end_ts'>
-                                                <input type='text' class="form-control" />
+                                                <input type='text' class="form-control" id = "end_ts_val"/>
                                                 <span class="input-group-addon">
                                                     <span class="glyphicon glyphicon-calendar"></span>
                                                 </span>
@@ -211,6 +211,7 @@
     <script type="text/javascript" src="../bower_components/moment/min/moment.min.js"></script>
     <script type="text/javascript" src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+
     <script type="text/javascript">
         
         var meters = ['KReSIT Mains', 'KReSIT AC', 'KReSIT Power Sockets', 'Wing C AC', 'Wing C Lights', 'Wing C Power Sockets','Wing C Floor 2 AC','Wing C Floor 2 Lights','Wing C Floor 2 Power Sockets','F C Kohli AC','F C Kohli Lights','F C Kohli Power Sockets','Office AC','Office Lights','Office Power Sockets','ERTS Lab AC','ERTS Lab Lights','ERTS Lab Power Sockets','SEIL AC','SEIL Ligts','SEIL Power Sockets','Circular Hall AC','Circular Hall Lights','Circular Hall Power Sockets','Classroom ODU 1','Classroom ODU 2','Classroom ODU 3','Yahoo Cluster AC','Yahoo Cluster Power Sockets','Server Room AC','Server Room Power Sockets']
@@ -226,8 +227,13 @@
             var is_cls_room_number_appended = false;
             var is_room_number_appended = false;
 
+            //88888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888//
+
             $('#start_ts').datetimepicker();
             $('#end_ts').datetimepicker();
+
+            //88888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888//
+
 
              $('#which_data').change(function(){
                 var option_value = $(this).val();
@@ -245,9 +251,6 @@
 
                         is_meter_option_appended = true;   
                     }
-                   
-
-                    
                     $("#meter_data").css('display',"")
                     $("#clsroom_data").css('display',"none")
                     $("#temp_data").css('display',"none")
@@ -261,8 +264,6 @@
                         $('#clsrooms').append(classroom_select_elem);
                         is_cls_room_number_appended = true;
                     }
-                    
-
                     $("#meter_data").css('display',"none")
                     $("#clsroom_data").css('display',"")
                     $("#temp_data").css('display',"none")
@@ -277,8 +278,6 @@
                         is_room_number_appended = true;
 
                     }
-                    
-
                     $("#meter_data").css('display',"none")
                     $("#clsroom_data").css('display',"none")
                     $("#temp_data").css('display',"")
@@ -291,26 +290,92 @@
                     $("#temp_data").css('display',"none")
                 }
                 
-             });
+             }); // end of change function
+
+
+            //88888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888//
 
             $("#fetch_me_data").click(function(){
-                console.log('call event handler to get the data')
-            });
-        });
+                // start and end time
+                var stime = $("#start_ts_val").val();
+                var etime = $('#end_ts_val').val();
+
+                //needed data set
+                var ds_option =  $('#which_data option:selected').val();
+                var dataset = $('#which_data option:selected').text();
+
+
+                var data = [] // collect dataset sepecific information
+               
+
+                if (ds_option == 1)
+                {
+                    var meter = $('#meters option:selected').val();
+                    var params = []
+                    $('#params option:selected').each(function(i,selected){
+
+                        params[i] = $(selected).text();
+                    });
+                    data[0] = meter; // put the meter for which the data is to be fetched
+                    data[1] = params; // fetch the params for the selected meter
+                }
+                else if (ds_option == 2)
+                {
+                    var clsroom = $('#clsrooms option:selected').val();
+                    data[0] = clsroom ; // put the class room number
+
+                }
+                else if (ds_option == 3)
+                {
+                    var room = $('#temp_rooms option:selected').val();
+                    data[0] = room ; // put the room number 
+                }
+                
+                fetchData(stime, etime, ds_option, dataset, data) ;
+
+
+            }); // end of click function
+        
+        }); // end of function
+
+        function fetchData(START_TIME, END_TIME, DATASET_NUMBER, DATASET_NAME, DATA)
+        {
+
+            /*
+            * COMMENT ON DATA FORMAT
+            *
+            * data:{'start':START_TIME, 'end':END_TIME,'dataset_number':DATASET_NUMBER, 'dataset_name':DATASET_NAME, 'options':DATA}
+            *   start : start timestamp
+            *   end : end timestamp
+            *   dataset_number: this parameter is the number of the dataset eg: smart meter is 1, smart classroom data is 2,..
+            *   dataset_name: this parameter is the name of the dataset which is chosen by the user
+            *   options: this is set of parameters related to the chosen dataset
+            *   eg: for smart meter data; its length is 2; [0]: meter for which data is to be fetched and [1]: parameters we want to fetch
+            *       for classroom data; its length is 1; [0] room numner for which we want to fetch classroom information
+            *       for temperature data: its length is 1; [0] room numner for which we want to fetch classroom information
+            *
+            *   to fetch these values use getParameter('start') to get start timestamp
+            */
+
+
+            // UNCOMMENT THIS CODE TO USE ajax handler
+            /*$.ajax ( {
+                            type:"GET",
+                            dataType:"JSONP",
+                            url:"", // write the URL here
+                            data:{'start':START_TIME, 'end':END_TIME,'dataset_number':DATASET_NUMBER, 'dataset_name':DATASET_NAME, 'options':DATA},
+                            success: function(return_data) 
+                                    {
+                                        alert(return_data) ;
+                                        
+                                    } 
+                            
+                        });
+            */
+           
+        }
 
        
-
-        
-       
-        
-
-       
-       
-        
-        
-
-
-
     </script>
 
 </body>

@@ -61,3 +61,23 @@ function createRoomList(rooms, size)
 	
 	return select_elem ;
 }
+
+function fetchData(START_TIME, END_TIME, DATASET_NUMBER, DATASET_NAME, DATA)
+{
+
+	/*$.ajax ( {
+					type:"GET",
+					dataType:"JSONP",
+					url:"",
+					data:{'start':START_TIME, 'end':END_TIME,'dataset_number':DATASET_NUMBER, 'dataset_name':DATASET_NAME, 'options':DATA},
+					success: function(data) 
+							{
+								
+								
+							} 
+					
+				});
+	*/
+	alert('hello');
+}
+
