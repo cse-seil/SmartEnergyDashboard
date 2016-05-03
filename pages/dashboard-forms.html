@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Energy Analytics - Request Data </title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="../bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="../bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+     <!-- Datetimepicker css -->
+     <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css" />
+     <link rel="stylesheet" href="../bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />   
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Smart Energy Dashboard</a>
+            </div>
+            <!-- /.navbar-header -->
+
+            
+
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li class="sidebar-search">
+                            <div class="input-group custom-search-form">
+                                <input type="text" class="form-control" placeholder="Search...">
+                                <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                            </div>
+                            <!-- /input-group -->
+                        </li>
+
+                        <li>
+                            <a href="#"><i class="fa fa-dashboard fa-fw"></i> Data Dashboard</a>
+                        </li>
+                        
+                        
+                       
+                        
+                        
+                        
+                    </ul>
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
+        </nav>
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Get Collected Data:Form</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Request Data 
+                        </div>
+                        <div class="panel-body">
+                        
+                                <div class="row">
+                                    <div class='col-sm-6'>
+                                        <div class="form-group">
+                                            Give START Timestamp
+                                            <div class='input-group date' id='start_ts'>
+                                                <input type='text' class="form-control" />
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class='col-sm-6'>
+                                        <div class="form-group">
+                                            Give END Timestamp
+                                            <div class='input-group date' id='end_ts'>
+                                                <input type='text' class="form-control" />
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    
+                                </div>
+
+                                <!-- row ends-->
+
+                                <div class='row'>
+                                    <div class='col-sm-6'>
+                                        <div class="form-group">
+                                            <label>What data do you want?</label>
+                                            <select class="form-control" id="which_data">
+                                                <option value='0'> -- Choose Dataset -- </option>
+                                                <option value='1'>Smart Meter Data</option>
+                                                <option value='2'>Smart Classroom Data </option>
+                                                <option value='3'>Classroom and SEIL Temperature Data</option>
+                                                <option value='4'>SEIL Appliance Control Data</option>
+                                                <option value='5'>Smart Door Data</option>
+                                                <option value='6'>Tagging Application Data</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- row ends -->
+
+                                <div class="row" style="display:none;" id="meter_data">
+                                    <div class="col-sm-6" id="meters">
+                                       
+                                    </div>
+                                    <div class="col-sm-6" id="params">
+                                       
+                                    </div>
+                                </div>
+
+                                <!-- row ends -->
+                                <div class="row" style="display:none;" id="clsroom_data">
+                                    <div class="col-sm-6" id="clsrooms">
+                                       
+                                    </div>
+                                </div>
+
+                                <!-- row ends -->
+
+                                <div class="row" style="display:none;" id="temp_data">
+                                    <div class="col-sm-6" id="temp_rooms">
+                                       
+                                    </div>
+                                </div>
+
+                                <!-- row ends -->
+
+                                <button type="submit" class="btn btn-default" id="fetch_me_data">Fetch Me Data!</button>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+    <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="../bower_components/metisMenu/dist/metisMenu.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="../dist/js/sb-admin-2.js"></script>
+
+    <script type="text/javascript" src="../js/custom/utilities.js"></script>
+
+    <!-- datetimepicker -->
+    
+    <script type="text/javascript" src="../bower_components/moment/min/moment.min.js"></script>
+    <script type="text/javascript" src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript">
+        
+        var meters = ['KReSIT Mains', 'KReSIT AC', 'KReSIT Power Sockets', 'Wing C AC', 'Wing C Lights', 'Wing C Power Sockets','Wing C Floor 2 AC','Wing C Floor 2 Lights','Wing C Floor 2 Power Sockets','F C Kohli AC','F C Kohli Lights','F C Kohli Power Sockets','Office AC','Office Lights','Office Power Sockets','ERTS Lab AC','ERTS Lab Lights','ERTS Lab Power Sockets','SEIL AC','SEIL Ligts','SEIL Power Sockets','Circular Hall AC','Circular Hall Lights','Circular Hall Power Sockets','Classroom ODU 1','Classroom ODU 2','Classroom ODU 3','Yahoo Cluster AC','Yahoo Cluster Power Sockets','Server Room AC','Server Room Power Sockets']
+
+        var params = ['ALL','REAL POWER','CURRENT','POWER FACTOR','LINE VOLTAGES','INTERPHASE VOLTAGES','REACTIVE POWER','APPARENT POWER','ENERGY','FREQUENCY']
+
+
+        var rooms = [201,205,301,305,'SEIL']
+
+        $(function () {
+
+            var is_meter_option_appended = false;
+            var is_cls_room_number_appended = false;
+            var is_room_number_appended = false;
+
+            $('#start_ts').datetimepicker();
+            $('#end_ts').datetimepicker();
+
+             $('#which_data').change(function(){
+                var option_value = $(this).val();
+                //console.log(option_value);
+
+                if (option_value == 1)
+                {
+                    //console.log(option_value);
+                    var meter_select_elem = createMeterList(meters);
+                    var param_select_elem = createParametersList(params);
+                    if(!is_meter_option_appended)
+                    {
+                        $('#meters').append(meter_select_elem);
+                        $('#params').append(param_select_elem);  
+
+                        is_meter_option_appended = true;   
+                    }
+                   
+
+                    
+                    $("#meter_data").css('display',"")
+                    $("#clsroom_data").css('display',"none")
+                    $("#temp_data").css('display',"none")
+
+                }
+                else if(option_value == 2)
+                {
+                    var classroom_select_elem = createRoomList(rooms, rooms.length - 1);
+                    if(!is_cls_room_number_appended)
+                    {
+                        $('#clsrooms').append(classroom_select_elem);
+                        is_cls_room_number_appended = true;
+                    }
+                    
+
+                    $("#meter_data").css('display',"none")
+                    $("#clsroom_data").css('display',"")
+                    $("#temp_data").css('display',"none")
+
+                }
+                else if(option_value == 3)
+                {
+                    var temperature_room_select_elem = createRoomList(rooms, rooms.length);
+                    if(!is_room_number_appended)
+                    {
+                        $('#temp_rooms').append(temperature_room_select_elem);
+                        is_room_number_appended = true;
+
+                    }
+                    
+
+                    $("#meter_data").css('display',"none")
+                    $("#clsroom_data").css('display',"none")
+                    $("#temp_data").css('display',"")
+                }
+                else
+                {
+                   // console.log(option_value);
+                    $("#meter_data").css('display',"none")
+                    $("#clsroom_data").css('display',"none")
+                    $("#temp_data").css('display',"none")
+                }
+                
+             });
+
+            $("#fetch_me_data").click(function(){
+                console.log('call event handler to get the data')
+            });
+        });
+
+       
+
+        
+       
+        
+
+       
+       
+        
+        
+
+
+
+    </script>
+
+</body>
+
+</html>
